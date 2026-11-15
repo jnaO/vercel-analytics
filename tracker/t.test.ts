@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { JSDOM } from "jsdom";
+import { type DOMWindow, JSDOM } from "jsdom";
 import { describe, expect, it } from "vitest";
 
 const source = readFileSync(resolve(__dirname, "../public/t.js"), "utf8");
@@ -36,7 +36,7 @@ function load(body: string, scriptAttrs = "") {
 }
 
 function click(
-  window: Window & typeof globalThis,
+  window: DOMWindow,
   el: Element,
   type: "click" | "auxclick",
   button: number,
