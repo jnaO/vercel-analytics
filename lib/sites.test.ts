@@ -124,7 +124,7 @@ describe("tokenMatches", () => {
   });
 
   it("rejects a different token of the same length", () => {
-    expect(tokenMatches(site, "a".repeat(31) + "c")).toBe(false);
+    expect(tokenMatches(site, `${"a".repeat(31)}c`)).toBe(false);
     expect(tokenMatches(site, TOKEN_B)).toBe(false);
   });
 
