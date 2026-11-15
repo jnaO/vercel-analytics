@@ -1,0 +1,24 @@
+# dependencies / build
+node_modules/
+.next/
+out/
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+
+# env and Vercel (secrets live in Vercel env vars only)
+.env*
+!.env.example
+.vercel/
+
+# OS / editor
+.DS_Store
+
+# agent files (local only)
+CLAUDE.md
+AGENTS.md
+.claude/
+.agent-docs/
+ARCHITECTURE.md
+.qa/
+graphify-out/
