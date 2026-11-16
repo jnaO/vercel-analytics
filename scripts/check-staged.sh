@@ -33,13 +33,19 @@ done <<EOF
 $files
 EOF
 
-added=$(git diff --cached -U0 --diff-filter=ACMR | grep -E '^\+' | grep -vE '^\+\+\+ ')
+# Added lines as "path<TAB>+line"; a match is reported by path only,
+# never by content.
+added=$(git diff --cached -U0 --diff-filter=ACMR | awk '
+  /^\+\+\+ b\// { path = substr($0, 7); next }
+  /^\+/ { print path "\t" $0 }
+')
 
 check() {
-  local label=$1 pattern=$2
-  if echo "$added" | grep -qiE -- "$pattern"; then
-    echo "BLOCKED added line looks like a credential ($label); matching lines:"
-    echo "$added" | grep -iE -- "$pattern" | cut -c1-60 | sed 's/^/  /'
+  local label=$1 pattern=$2 matched
+  matched=$(echo "$added" | grep -iE -- "$pattern" | cut -f1 | sort -u)
+  if [ -n "$matched" ]; then
+    echo "BLOCKED added line looks like a credential ($label) in:"
+    echo "$matched" | sed 's/^/  /'
     fail=1
   fi
 }
